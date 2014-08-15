@@ -1,35 +1,33 @@
-
-
 var magazyka = {
 
 
-    addLocalStorage: function(param){
+    addLocalStorage: function (param) {
         var self = this;
-        if (param == "add"){
-        localStorage.ListItems = JSON.stringify(self.ListOfItems);
+        if (param == "add") {
+            localStorage.ListItems = JSON.stringify(self.ListOfItems);
 
         }
 
-        if (param == "get"){
+        if (param == "get") {
             self.ListOfItems = localStorage.ListItems ? JSON.parse(localStorage.ListItems) : [];
         }
-        if (param == "del"){
+        if (param == "del") {
             localStorage.clear();
             //document.location.href = "http://localhost:3000/";
         }
 
 
-        else{
-/*
-            if( self.ListOfItems.length == 0 ){
-                document.location.href = "http://localhost:3000/";
-                return false;
-            }*/
+        else {
+            /*
+             if( self.ListOfItems.length == 0 ){
+             document.location.href = "http://localhost:3000/";
+             return false;
+             }*/
 
 
             /*if( self.ListOfItems == 0 ){
-                document.location.href = "http://localhost:3000/";
-            }*/
+             document.location.href = "http://localhost:3000/";
+             }*/
         }
     },
 
@@ -76,7 +74,7 @@ var magazyka = {
                     }
 
                 }
-                //}
+
 
                 if (!found) {
                     self.ListOfItems.push(self.goods[i]);
@@ -92,7 +90,7 @@ var magazyka = {
                 // self.removeNode(param);
 
                 self.addLocalStorage("add");
-               // self.createBasket();
+                // self.createBasket();
                 break;
 
             }
@@ -129,7 +127,7 @@ var magazyka = {
 
 
         caption = document.createElement('caption');
-        var aa =  document.createElement('a');
+        var aa = document.createElement('a');
         aa.setAttribute("href", "http://localhost:3000/cart");
         aa.innerHTML = "Корзина";
         caption.appendChild(aa);
@@ -180,12 +178,12 @@ var magazyka = {
                 }
             }
         }
-       // var clear = document.createElement('p');
+        // var clear = document.createElement('p');
         td.innerHTML = "  Очистить корзину";
         td.id = "clear";
 
-        tdTwo.innerHTML = a ;
-       // tdTwo.id = "clear";
+        tdTwo.innerHTML = a;
+        // tdTwo.id = "clear";
         table.style = "text-align: center";
 
         trOne.appendChild(tdOne);
@@ -198,19 +196,17 @@ var magazyka = {
         table.appendChild(trTwo);
 
 
-
-
         document.getElementById("inBasketTT").appendChild(table);
 
         document.getElementById("inBasketTT").style.display = 'block'
 
-       var $clear = $('#clear');
+        var $clear = $('#clear');
 
         $($clear).on('click', function () {
             self.addLocalStorage("del");
             self.addLocalStorage("get");
             self.inBasket();
-           console.log('aada');
+            console.log('aada');
 
 
         });
@@ -254,23 +250,64 @@ var magazyka = {
     },
 
 
-    ChangeBasket: function (param) {
+    ChangeBasket: function (param, name) {
 
-        console.log(param);
-        var aa = param+"";
-       // var count = $('#name_' + param);
-        var aaa;
-        var countTd = document.getElementById("name_" + param);
-        //count.innerHTML = "";
+        var self = this;
+        console.log(name);
+        var countTd = document.getElementById("index_" + param);
+        var newTd = $('<td id="index_' + param + '" class="td" ><input  type="number" id=number' + param + '> <input type=button value=Подтвердить class="newCount"></td>');
+        $(countTd).replaceWith(newTd);
+        $(".newCount").click(function (event) {
+            var aa = document.getElementById('number' + param).value;
+
+            aa = parseInt(aa, 10);
 
 
-      /*  if (this.ListOfItems[param].count > 1) {
-            this.goods[param].number++;
-            this.ListOfItems[param].count--;
-            this.createBasket();
-        } else {
-            this.DelBasket(param);
-        }*/
+            if (typeof aa == "number" & aa > 0) {
+                console.log(aa);
+                for (var i = 0; i < self.goods.length; i++) {
+
+                    if (self.goods[i].name == name) {
+                        if (self.goods[i].number < aa) {
+                            alert("Товаров на складе : " + self.goods[i].number);
+                            return false;
+                        } else {
+                            self.goods[i].number -= aa;
+                        }
+                    }
+                }
+                for (var f = 0; f < self.ListOfItems.length; f++) {
+                    if (self.ListOfItems[f].name == name) {
+                        self.ListOfItems[f].count = aa;
+                        self.addLocalStorage("del");
+                        self.addLocalStorage("add");
+                        self.createBasket();
+                    }
+                }
+            }
+
+            console.log(typeof aa);
+
+
+            return false;
+        });
+
+        /*var newCount = document.getElementsByClassName("newCount");
+         newCount.addEventListener('click', function () {
+         console.log("fdgd");
+
+
+         }, false);*/
+        // countTd.innerHTML = "";
+
+
+        /*  if (this.ListOfItems[param].count > 1) {
+         this.goods[param].number++;
+         this.ListOfItems[param].count--;
+         this.createBasket();
+         } else {
+         this.DelBasket(param);
+         }*/
     },
 
 
@@ -278,7 +315,7 @@ var magazyka = {
         var self = this;
         self.addLocalStorage("get");
 
-        if(self.ListOfItems.length == 0){
+        if (self.ListOfItems.length == 0) {
             document.location.href = "http://localhost:3000/";
         }
         if (document.getElementById("basket")) {
@@ -287,7 +324,7 @@ var magazyka = {
             document.getElementById("basketTT").removeChild(document.getElementById("tableTotal"));
             document.getElementById("basketTT").style.display = 'none';
             //document.getElementById("order").style.display = 'none';
-           // document.getElementById("count").style.display = 'none';
+            // document.getElementById("count").style.display = 'none';
             // document.getElementById('count-field').innerHTML = "";
 
         }
@@ -376,13 +413,13 @@ var magazyka = {
 
 
             $tr = document.createElement('tr');
-           // $tr.id = i;
+            // $tr.id = i;
 
 
             $tdName = document.createElement('td');
             $tdPrice = document.createElement('td');
             $tdcount = document.createElement('td');
-            $tdcount.id = i;
+            $tdcount.id = "index_" + i;
 
 
             $tdButton = document.createElement('td');
@@ -412,8 +449,11 @@ var magazyka = {
 
 
             var ourNewAttribute = document.createAttribute("list-index");
+            var attribute = document.createAttribute("name");
+            attribute.nodeValue = this.ListOfItems[i].name;
             ourNewAttribute.nodeValue = i;
             $button.attributes.setNamedItem(ourNewAttribute);
+            $button.attributes.setNamedItem(attribute);
 
             var DELAttribute = document.createAttribute("list-index");
             DELAttribute.nodeValue = this.ListOfItems[i].name;
@@ -422,7 +462,7 @@ var magazyka = {
             $button.addEventListener('click', function () {
                 console.log('Нажали Изменить колличество под индексом', this.getAttribute('list-index'));
                 // console.log('Вы кликнули по товару с именем: ' + event.target.innerHTML + " и ценой: " + event.target.getAttribute('price'));
-                self.ChangeBasket(this.getAttribute('list-index'));
+                self.ChangeBasket(this.getAttribute('list-index'), this.getAttribute('name'));
             }, false);
 
             $buttonDel.addEventListener('click', function () {
@@ -551,12 +591,12 @@ var magazyka = {
             var a = document.getElementById('name-field').value;
             var b = document.getElementById('lastName-field').value;
             var c = document.getElementById('address-field').value;
-            if(a, b, c != "" ){
+            if (a, b, c != "") {
 
-            count(a, b, c);
-            document.getElementById('k').innerText = "Итого " + self.countPrice() + "грн";
-            document.getElementById("order").style.display = 'none';
-            document.getElementById("count").style.display = 'block';
+                count(a, b, c);
+                document.getElementById('k').innerText = "Итого " + self.countPrice() + "грн";
+                document.getElementById("order").style.display = 'none';
+                document.getElementById("count").style.display = 'block';
             }
         }, false);
         function count(a, b, c) {
