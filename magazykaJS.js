@@ -1,16 +1,4 @@
 var magazyka = {
-    addLocalStorage: function (param) {
-        var self = this;
-        if (param == "add") {
-            localStorage.ListItems = JSON.stringify(self.ListOfItems);
-        }
-        if (param == "get") {
-            self.ListOfItems = localStorage.ListItems ? JSON.parse(localStorage.ListItems) : [];
-        }
-        if (param == "del") {
-            localStorage.clear();
-        }
-    },
 
     ListOfItems: [ ],
 
@@ -31,6 +19,19 @@ var magazyka = {
             number: 37
         }
     ],
+
+    addLocalStorage: function (param) {
+        var self = this;
+        if (param == "add") {
+            localStorage.ListItems = JSON.stringify(self.ListOfItems);
+        }
+        if (param == "get") {
+            self.ListOfItems = localStorage.ListItems ? JSON.parse(localStorage.ListItems) : [];
+        }
+        if (param == "del") {
+            localStorage.clear();
+        }
+    },
 
     addGoods: function (param) {
         var found = false,
