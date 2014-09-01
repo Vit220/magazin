@@ -318,7 +318,7 @@ var magazyka = {
             DELAttribute.nodeValue = this.ListOfItems[i].name;
             $buttonDel.attributes.setNamedItem(DELAttribute);
 
-            $button.addEventListener('click', function () {
+            /*$button.addEventListener('click', function () {
                 console.log('Нажали Изменить колличество под индексом', this.getAttribute('list-index'));
                 self.ChangeBasket(this.getAttribute('list-index'), this.getAttribute('name'));
             }, false);
@@ -326,7 +326,7 @@ var magazyka = {
             $buttonDel.addEventListener('click', function () {
                 console.log('Нажали Удалить под индексом', this.getAttribute('list-index'));
                 self.DelBasket(this.getAttribute('list-index'));
-            }, false);
+            }, false);*/
             $tdButton.appendChild($buttonDel);
             $tdButton.appendChild($button);
 
@@ -348,6 +348,14 @@ var magazyka = {
         }
         document.getElementById("basketTT").appendChild($documentFragment);
         ($('#basketTT').show(400));
+        table.addEventListener('click', function(event) {
+            if (/*event.target.tagName == 'input' &&*/ event.target.id == 'change') {
+                self.ChangeBasket(event.target.getAttribute('list-index'), event.target.getAttribute('name'));
+            }
+            if (/*event.target.tagName == 'input' &&*/ event.target.id == 'del') {
+                self.DelBasket(event.target.getAttribute('list-index'));
+            }
+        }, false)
     },
 
     createGoods: function () {
@@ -383,11 +391,11 @@ var magazyka = {
             ourNewAttribute.nodeValue = i;
             $button.attributes.setNamedItem(ourNewAttribute);
 
-            $button.addEventListener('click', function () {
+           /* $button.addEventListener('click', function () {
                 console.log('Нажали купить товар под индексов', this.getAttribute('goods-index'));
                 self.addGoods(this.getAttribute('goods-index'));
                 self.inBasket();
-            }, false);
+            }, false);*/
             $tdButton.appendChild($button);
 
             $tr.appendChild($tdName);
@@ -398,6 +406,15 @@ var magazyka = {
         var table = document.getElementById("goods");
         table.appendChild($documentFragment);
         self.inBasket();
+
+        table.addEventListener('click', function(event) {
+            if (event.target.className == 'buy-btn') {
+                console.log("Индекс твоара", event.target.getAttribute('goods-index'));
+                self.addGoods(event.target.getAttribute('goods-index'));
+                self.inBasket();
+            }
+        }, false);
+
     },
 
     registration: function () {
