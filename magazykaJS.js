@@ -1,3 +1,6 @@
+
+
+
 var magazyka = {
 
     ListOfItems: [ ],
